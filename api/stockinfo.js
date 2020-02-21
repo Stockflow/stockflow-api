@@ -8,14 +8,19 @@ class StockInfoClient {
   }
 }
 
+const withCors = res => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Headers', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST')
+  return res
+}
+
 module.exports = async (req, res) => {
   const { symbol } = req.body
   try {
     const data = await StockInfoClient.getStockInformation(symbol)
-    res.status(200)
-    res.json(data)
+    withCors(res).status(200).json(data)
   } catch (ex) {
-    res.status(501)
-    res.json({ error: ex })
+    withCors(res).status(501).json({ error: ex })
   }
 }
