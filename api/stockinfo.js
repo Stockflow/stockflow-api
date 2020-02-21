@@ -8,12 +8,14 @@ class StockInfoClient {
   }
 }
 
-module.exports = (req, res) => {
-  const { symbol } = JSON.parse(req.body)
-  StockInfoClient.getStockInformation(symbol).then(data => {
+module.exports = async (req, res) => {
+  const { symbol } = req.body
+  try {
+    const data = await StockInfoClient.getStockInformation(symbol)
     res.status(200)
     res.json(data)
-  }).catch(() => {
+  } catch (ex) {
     res.status(501)
-  })
+    res.json({ error: ex })
+  }
 }
