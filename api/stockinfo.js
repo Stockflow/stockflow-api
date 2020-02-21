@@ -13,5 +13,7 @@ module.exports = (req, res) => {
   StockInfoClient.getStockInformation(symbol).then(data => {
     res.status(200)
     res.json(data)
+  }).catch(() => {
+    res.status(501)
   })
 }
